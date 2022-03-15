@@ -11,6 +11,10 @@ var aButton = document.createElement("button");
 var bButton = document.createElement("button");
 var cButton = document.createElement("button");
 var dButton = document.createElement("button");
+var h2El = document.createElement("h2");
+var form = document.createElement("form");
+var input = document.createElement("input");
+var submit = document.createElement("button");
 
 var time = 0;
 var timer;
@@ -42,6 +46,7 @@ timerText.textContent = "Time: ";
 h1El.textContent = "Coding Quiz Practice";
 intro.textContent = "Test you knowledge by answering\n the following JavaScript-related multiple choice questions\n within the time limit. Incorrect answers result in a \n ten second penalty.\n \n Clicking the button will start the quiz.";
 startButton.textContent = "Start Quiz";
+submit.textContent = "Submit";
 
 // set attributes
 highscorespage.setAttribute("href", "highscores.html")
@@ -51,6 +56,11 @@ intro.setAttribute("style", "white-space: pre;");
 
 startButton.setAttribute("id", "startB")
 // source: https://developer.mozilla.org/en-US/docs/Web/API/Element/setAttribute
+
+input.setAttribute("type", "text");
+input.setAttribute("placeholder", "Enter Initials <= 3 characters");
+input.setAttribute("minlength", "1");
+input.setAttribute("maxlength", "3");
 
 startButton.classList.add("start")
 // source: https://developer.mozilla.org/en-US/docs/Web/API/Element/classList
@@ -116,18 +126,18 @@ function startTimer() {
     time--;
     timerElement.textContent = time;
 
-    if (time >= 0) {
+    if (isEnd >= 5 && time >= 0 ) {
       // Tests if win condition is met
-      if (isEnd === 5 && timerCount > 0) {
+      // if (isEnd >= 5 && time >= 0) {
         // Clears interval and stops timer
         timeRemaining = time;
         clearInterval(timer);
         quizEnd();
         return time;
-      }
+      // }
     }
     // Tests if time has run out
-    if (time === 0) {
+    if (time <= 0) {
       // Clears interval
       timeRemaining = 0;
       clearInterval(timer);
@@ -143,6 +153,7 @@ function renderQuiz() {
   body.appendChild(bButton);
   body.appendChild(cButton);
   body.appendChild(dButton);
+  body.appendChild(h2El);
 
   h1El.textContent = questions.q[0];
   aButton.textContent = questions.a[0];
@@ -155,21 +166,47 @@ function renderQuiz() {
   cButton.addEventListener("click", wrongAnswer)
   dButton.addEventListener("click", wrongAnswer)
 
-  // if ()
+  // if (x === 1){
+  //   h2El.textContent = "balls!"
+  //   x--
+  // }
+
+  // if (y === 1){
+  //   h2El.textContent = "dumb!"
+  //   y--
+  // }
+
 }
 
+x = 0;
+y = 0;
 function correctAnswer() {
   correct++;
+  x++;
+  isEnd++;
+  h2El.textContent = "Correct!";
 }
 
 
 function wrongAnswer() {
   time = time - 5;
-  timerElement.textContent = time;  
+  timerElement.textContent = time;
+  y++
+  h2El.textContent = "Wrong!";  
 }
 
 function quizEnd() {
+  body.removeChild(aButton);
+  body.removeChild(bButton);
+  body.removeChild(cButton);
+  body.removeChild(dButton);
 
+  h1El.textContent = "Finished.";
+  intro.textContent = "Your final score is " + correct + "."; 
+
+  body.appendChild(form);
+  form.appendChild(input);
+  form.appendChild(submit);
 }
 
 // possible things to use: 
