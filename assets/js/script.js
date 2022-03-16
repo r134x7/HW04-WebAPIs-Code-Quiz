@@ -16,6 +16,8 @@ var form = document.createElement("form");
 var input = document.createElement("input");
 var submit = document.createElement("button");
 // var submitlink = document.createElement("a")
+var goBack = document.createElement("button");
+var clearHighscores = document.createElement("button");
 
 var time = 0;
 var timer;
@@ -53,6 +55,8 @@ h1El.textContent = "Coding Quiz Practice";
 intro.textContent = "Test you knowledge by answering\n the following JavaScript-related multiple choice questions\n within the time limit. Incorrect answers result in a \n ten second penalty.\n \n Clicking the button will start the quiz.";
 startButton.textContent = "Start Quiz";
 submit.textContent = "Submit";
+goBack.textContent = "Go Back";
+clearHighscores.textContent = "Clear Highscores";
 
 // set attributes
 highscorespage.setAttribute("href", "highscores.html");
@@ -68,7 +72,7 @@ input.setAttribute("type", "text");
 input.setAttribute("placeholder", "Enter Initials <= 3 characters");
 input.setAttribute("minlength", "1");
 input.setAttribute("maxlength", "3");
-submit.setAttribute("href", "highscores.html")
+// submit.setAttribute("href", "highscores.html")
 
 startButton.classList.add("start");
 // source: https://developer.mozilla.org/en-US/docs/Web/API/Element/classList
@@ -227,7 +231,33 @@ function submitForm(event) {
   score.initials = input.value;
   localStorage.setItem("score", JSON.stringify(score));
 
+  highscores();
+}
 
+function highscores() {
+  body.removeChild(form);
+
+  h1El.textContent = "Highscores";
+
+  var obj = JSON.parse(localStorage.getItem("score"));
+
+intro.textContent = "1. " + " Initials: " + obj.initials + ", Correct Answers: " + obj.correct + ", Time Remaining: " + obj.timeRemaining + " seconds" + ", Bonus Points: " + obj.bonus + ", Total: " + obj.total + "."; 
+
+  body.appendChild(goBack);
+  body.appendChild(clearHighscores);
+
+  goBack.addEventListener("click", reset)
+
+  clearHighscores.addEventListener("click", resetHighscores);
+}
+
+function reset() {
+  location.reload(); // refreshes the page
+}
+
+function resetHighscores() {
+  localStorage.clear(); // deletes localStorage related to URL
+  intro.textContent = "";
 }
 
 
