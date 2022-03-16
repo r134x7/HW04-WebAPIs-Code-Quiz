@@ -4,7 +4,7 @@ var h1El = document.createElement("h1");
 var intro = document.createElement("p");
 var startButton = document.createElement("button");
 var nav1 = document.createElement("nav");
-var highscorespage = document.createElement("a")
+var highscorespage = document.createElement("button")
 var timerText = document.createElement("p");
 var span = document.createElement("span");
 var aButton = document.createElement("button");
@@ -33,23 +33,16 @@ var score = {
   total: 0,
 };
 
-// var bonus = score.correct * score.timeRemaining;
-// var total = score.correct + bonus; 
-
-// var correct = 0;
-// var timeRemaining = 0;
-// var bonus = correct * timeRemaining;
-
 var questions = {
-  q: ["Commonly used data types do not include...?", "11111111"],
-  a: ["strings", "11111111"],
-  b: ["prompts", "11111111"],
-  c: ["numbers", "11111111"],
-  d: ["booleans", "11111111"],
+  q: ["Commonly used data types do not include...?", "To use a function you must...?", "The abbreviation DOM stands for...?", "The difference between a for loop and a while loop is...?", "Which of these are three Boolean operators...?"],
+  a: ["strings", "Call it by its first name", "Document Object Model", "One is irritable and the other obsesses over the truth", "Yes, No, Maybe."],
+  b: ["prompts", "Call it by its last name", "Data Object Model", "One is iterable and the other loops over false statements", "True, False, Null."],
+  c: ["numbers", "Call it", "Disk Operating Manual", "One is irritable and the other loops while a statement is true", "And, Or, Not."],
+  d: ["booleans", "Call it something else", "Document Official Model", "One iterates a set number of times and the other loops while a statement is true", "If, For, While."],
 }
 
 // textContent
-highscorespage.textContent = "Highscores Page";
+highscorespage.textContent = "View Highscores";
 timerText.textContent = "Time: ";
 h1El.textContent = "Coding Quiz Practice";
 intro.textContent = "Test you knowledge by answering\n the following JavaScript-related multiple choice questions\n within the time limit. Incorrect answers result in a \n ten second penalty.\n \n Clicking the button will start the quiz.";
@@ -59,9 +52,6 @@ goBack.textContent = "Go Back";
 clearHighscores.textContent = "Clear Highscores";
 
 // set attributes
-highscorespage.setAttribute("href", "highscores.html");
-// submitlink.setAttribute("href", "highscores.html");
-
 intro.setAttribute("style", "white-space: pre;");
 // code for using new lines with texContent, source: https://stackoverflow.com/questions/9980416/how-can-i-insert-new-line-carriage-returns-into-an-element-textcontent user: nelek
 
@@ -179,28 +169,146 @@ function renderQuiz() {
   cButton.addEventListener("click", wrongAnswer)
   dButton.addEventListener("click", wrongAnswer)
 
-
-
 }
 
-x = 0;
-y = 0;
+// x = 0;
+// y = 0;
 function correctAnswer() {
   score.correct++;
-  x++;
+  // x++;
   isEnd++;
   h2El.textContent = "Correct!";
+
+  setTimeout(function() {
+    h2El.textContent = "";
+  }, 1*1000);
+    // setTimeout source: https://developer.mozilla.org/en-US/docs/Web/API/setTimeout
+
+  // if event listener is not removed, then bug occurs regarding isEnd++ being doubled on a button that was previously right and wrong
+  aButton.removeEventListener("click", correctAnswer)
+  bButton.removeEventListener("click", correctAnswer)
+  cButton.removeEventListener("click", correctAnswer)
+  dButton.removeEventListener("click", correctAnswer)
+
+  aButton.removeEventListener("click", wrongAnswer)
+  bButton.removeEventListener("click", wrongAnswer)
+  cButton.removeEventListener("click", wrongAnswer)
+  dButton.removeEventListener("click", wrongAnswer)
+
+
+  if (isEnd === 1) {
+    secondQ();
+  } else if (isEnd === 2) {
+    thirdQ();
+  } else if (isEnd === 3) {
+    fourthQ();
+  } else if (isEnd === 4) {
+    fifthQ();
+  }
+
+  console.log(isEnd)
 }
 
 
 function wrongAnswer() {
-  time = time - 5;
+  time = time - 10;
   timerElement.textContent = time;
-  y++
-  h2El.textContent = "Wrong!";  
+  h2El.textContent = "Wrong!";
+  isEnd++;
+
+  setTimeout(function() {
+    h2El.textContent = "";
+  }, 1*1000);
+  // setTimeout source: https://developer.mozilla.org/en-US/docs/Web/API/setTimeout
+
+  // if event listener is not removed, then bug occurs regarding isEnd++ being doubled on a button that was previously right and wrong
+  aButton.removeEventListener("click", correctAnswer)
+  bButton.removeEventListener("click", correctAnswer)
+  cButton.removeEventListener("click", correctAnswer)
+  dButton.removeEventListener("click", correctAnswer)
+
+  aButton.removeEventListener("click", wrongAnswer)
+  bButton.removeEventListener("click", wrongAnswer)
+  cButton.removeEventListener("click", wrongAnswer)
+  dButton.removeEventListener("click", wrongAnswer)
+
+  if (isEnd === 1) {
+    secondQ();
+  } else if (isEnd === 2) {
+    thirdQ();
+  } else if (isEnd === 3) {
+    fourthQ();
+  } else if (isEnd === 4) {
+    fifthQ();
+  }
+
+  console.log(isEnd)
 }
 
+function secondQ() {
+
+  h1El.textContent = questions.q[1];
+  aButton.textContent = questions.a[1];
+  bButton.textContent = questions.b[1];
+  cButton.textContent = questions.c[1];
+  dButton.textContent = questions.d[1];
+
+  aButton.addEventListener("click", wrongAnswer)
+  bButton.addEventListener("click", wrongAnswer)
+  cButton.addEventListener("click", correctAnswer)
+  dButton.addEventListener("click", wrongAnswer)
+
+}
+
+function thirdQ() {
+
+  h1El.textContent = questions.q[2];
+  aButton.textContent = questions.a[2];
+  bButton.textContent = questions.b[2];
+  cButton.textContent = questions.c[2];
+  dButton.textContent = questions.d[2];
+
+  aButton.addEventListener("click", correctAnswer)
+  bButton.addEventListener("click", wrongAnswer)
+  cButton.addEventListener("click", wrongAnswer)
+  dButton.addEventListener("click", wrongAnswer)
+
+}
+
+function fourthQ() {
+
+  h1El.textContent = questions.q[3];
+  aButton.textContent = questions.a[3];
+  bButton.textContent = questions.b[3];
+  cButton.textContent = questions.c[3];
+  dButton.textContent = questions.d[3];
+
+  aButton.addEventListener("click", wrongAnswer)
+  bButton.addEventListener("click", wrongAnswer)
+  cButton.addEventListener("click", wrongAnswer)
+  dButton.addEventListener("click", correctAnswer)
+
+}
+
+function fifthQ() {
+
+  h1El.textContent = questions.q[4];
+  aButton.textContent = questions.a[4];
+  bButton.textContent = questions.b[4];
+  cButton.textContent = questions.c[4];
+  dButton.textContent = questions.d[4];
+
+  aButton.addEventListener("click", wrongAnswer)
+  bButton.addEventListener("click", wrongAnswer)
+  cButton.addEventListener("click", correctAnswer)
+  dButton.addEventListener("click", wrongAnswer)
+
+}
+
+
 function quizEnd() {
+
+  h2El.textContent = "";
 
   score.bonus = score.correct * score.timeRemaining;
   score.total = score.correct + score.bonus;
@@ -221,8 +329,6 @@ function quizEnd() {
   // var submit2 = document.querySelector(".submit1")
 
   form.addEventListener("submit", submitForm); // in the end it was the form that was meant to have the eventListener, not the submit button and not the input. Which meant it finally stopped refreshing.
-
-  console.log(score);
 }
 
 function submitForm(event) {
@@ -259,6 +365,27 @@ function resetHighscores() {
   localStorage.clear(); // deletes localStorage related to URL
   intro.textContent = "";
 }
+
+function viewHighscores() { 
+  body.removeChild(timerText);
+  body.removeChild(startButton);
+
+  h1El.textContent = "Highscores";
+
+  var obj = JSON.parse(localStorage.getItem("score"));
+
+intro.textContent = "1. " + " Initials: " + obj.initials + ", Correct Answers: " + obj.correct + ", Time Remaining: " + obj.timeRemaining + " seconds" + ", Bonus Points: " + obj.bonus + ", Total: " + obj.total + "."; 
+
+  body.appendChild(goBack);
+  body.appendChild(clearHighscores);
+
+  goBack.addEventListener("click", reset)
+
+  clearHighscores.addEventListener("click", resetHighscores);
+}
+
+
+highscorespage.addEventListener("click", viewHighscores);
 
 
 
