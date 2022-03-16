@@ -15,6 +15,7 @@ var h2El = document.createElement("h2");
 var form = document.createElement("form");
 var input = document.createElement("input");
 var submit = document.createElement("button");
+// var submitlink = document.createElement("a")
 
 var time = 0;
 var timer;
@@ -22,15 +23,20 @@ var countdown; // for time
 var countdown1; // for timer function
 var isEnd = 0;
 
-// var score = {
-//   correct: 0,
-//   timeRemaining: 0,
-//   bonus: score.correct * score.timeRemaining,
-// };
+var score = {
+  initials: "",
+  correct: 0,
+  timeRemaining: 0,
+  bonus: 0,
+  total: 0,
+};
 
-var correct = 0;
-var timeRemaining = 0;
-var bonus = correct * timeRemaining;
+// var bonus = score.correct * score.timeRemaining;
+// var total = score.correct + bonus; 
+
+// var correct = 0;
+// var timeRemaining = 0;
+// var bonus = correct * timeRemaining;
 
 var questions = {
   q: ["Commonly used data types do not include...?", "11111111"],
@@ -49,23 +55,26 @@ startButton.textContent = "Start Quiz";
 submit.textContent = "Submit";
 
 // set attributes
-highscorespage.setAttribute("href", "highscores.html")
+highscorespage.setAttribute("href", "highscores.html");
+// submitlink.setAttribute("href", "highscores.html");
 
 intro.setAttribute("style", "white-space: pre;");
 // code for using new lines with texContent, source: https://stackoverflow.com/questions/9980416/how-can-i-insert-new-line-carriage-returns-into-an-element-textcontent user: nelek
 
-startButton.setAttribute("id", "startB")
+startButton.setAttribute("id", "startB");
 // source: https://developer.mozilla.org/en-US/docs/Web/API/Element/setAttribute
 
 input.setAttribute("type", "text");
 input.setAttribute("placeholder", "Enter Initials <= 3 characters");
 input.setAttribute("minlength", "1");
 input.setAttribute("maxlength", "3");
+submit.setAttribute("href", "highscores.html")
 
-startButton.classList.add("start")
+startButton.classList.add("start");
 // source: https://developer.mozilla.org/en-US/docs/Web/API/Element/classList
 
-span.classList.add("time1")
+span.classList.add("time1");
+submit.classList.add("submit1");
 
 
 // append variables to DOM
@@ -130,7 +139,7 @@ function startTimer() {
       // Tests if win condition is met
       // if (isEnd >= 5 && time >= 0) {
         // Clears interval and stops timer
-        timeRemaining = time;
+        score.timeRemaining = time;
         clearInterval(timer);
         quizEnd();
         return time;
@@ -139,7 +148,7 @@ function startTimer() {
     // Tests if time has run out
     if (time <= 0) {
       // Clears interval
-      timeRemaining = 0;
+      score.timeRemaining = 0;
       clearInterval(timer);
       quizEnd();
       return time;
@@ -166,22 +175,14 @@ function renderQuiz() {
   cButton.addEventListener("click", wrongAnswer)
   dButton.addEventListener("click", wrongAnswer)
 
-  // if (x === 1){
-  //   h2El.textContent = "balls!"
-  //   x--
-  // }
 
-  // if (y === 1){
-  //   h2El.textContent = "dumb!"
-  //   y--
-  // }
 
 }
 
 x = 0;
 y = 0;
 function correctAnswer() {
-  correct++;
+  score.correct++;
   x++;
   isEnd++;
   h2El.textContent = "Correct!";
@@ -196,18 +197,40 @@ function wrongAnswer() {
 }
 
 function quizEnd() {
+
+  score.bonus = score.correct * score.timeRemaining;
+  score.total = score.correct + score.bonus;
+
   body.removeChild(aButton);
   body.removeChild(bButton);
   body.removeChild(cButton);
   body.removeChild(dButton);
 
   h1El.textContent = "Finished.";
-  intro.textContent = "Your final score is " + correct + "."; 
+  intro.textContent = "You got " + score.correct + "\nYour time remaining was " + score.timeRemaining + " seconds." + "\nYour bonus score is " + score.bonus + "\nYour final score is " + score.total + "."; 
 
   body.appendChild(form);
   form.appendChild(input);
+  // form.appendChild(submitlink);
   form.appendChild(submit);
+
+  // var submit2 = document.querySelector(".submit1")
+
+  form.addEventListener("submit", submitForm); // in the end it was the form that was meant to have the eventListener, not the submit button and not the input. Which meant it finally stopped refreshing.
+
+  console.log(score);
 }
+
+function submitForm(event) {
+  event.preventDefault();
+  // event.stopPropagation();
+  score.initials = input.value;
+  localStorage.setItem("score", JSON.stringify(score));
+
+
+}
+
+
 
 // possible things to use: 
 // document.querySelector(); 
