@@ -324,7 +324,7 @@ function quizEnd() { // when time runs out or isEnd is 5 or greater, shows score
   body.appendChild(form);
   form.appendChild(input);
   form.appendChild(submit);
-  // var submit2 = document.querySelector(".submit1")
+  // var submit2 = document.querySelector(".submit1") // ended up not being needed
 
   if (input.value === "") { //if no initials entered
     input.value === "AAA";
