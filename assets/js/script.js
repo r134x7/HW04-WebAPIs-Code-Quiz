@@ -18,6 +18,7 @@ var submit = document.createElement("button");
 // var submitlink = document.createElement("a")
 var goBack = document.createElement("button");
 var clearHighscores = document.createElement("button");
+var div = document.createElement("div");
 
 var time = 0;
 var timer;
@@ -26,7 +27,7 @@ var countdown1; // for timer function
 var isEnd = 0;
 
 var score = {
-  initials: "",
+  initials: "0",
   correct: 0,
   timeRemaining: 0,
   bonus: 0,
@@ -45,41 +46,55 @@ var questions = {
 highscorespage.textContent = "View Highscores";
 timerText.textContent = "Time: ";
 h1El.textContent = "Coding Quiz Practice";
-intro.textContent = "Test you knowledge by answering\n the following JavaScript-related multiple choice questions\n within the time limit. Incorrect answers result in a \n ten second penalty.\n \n Clicking the button will start the quiz.";
+intro.textContent = "Test your knowledge by answering\n the following JavaScript-related multiple choice questions\n within the time limit. Incorrect answers result in a \n ten second penalty.\n \n Clicking the button below will start the quiz.";
 startButton.textContent = "Start Quiz";
 submit.textContent = "Submit";
 goBack.textContent = "Go Back";
 clearHighscores.textContent = "Clear Highscores";
 
 // set attributes
-intro.setAttribute("style", "white-space: pre;");
+// intro.setAttribute("style", "white-space: pre;");
 // code for using new lines with texContent, source: https://stackoverflow.com/questions/9980416/how-can-i-insert-new-line-carriage-returns-into-an-element-textcontent user: nelek
 
+nav1.setAttribute("style", "display: flex; flex-wrap: wrap; justify-content: space-between");
+
+h1El.setAttribute("style", "display: flex; flex-wrap: wrap; justify-content: center; font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; font-size:32px;");
+
+// intro.setAttribute("style", "font-size:16px; text-align:center;");
+intro.setAttribute("style", "display: flex; flex-wrap: wrap; font-size:16px; text-align:center; justify-content: center;");
+
+div.setAttribute("style", "display: flex; flex-wrap: wrap; justify-content: space-between; flex-direction: column; align-content: flex-start;");
+
 startButton.setAttribute("id", "startB");
-// source: https://developer.mozilla.org/en-US/docs/Web/API/Element/setAttribute
+startButton.setAttribute("style", "padding: 2em 2em 2em 2em; margin: 2em 2em 2em 2em; background-color: red; font-weight: bold; border-radius: 30px; color: white;")
+
+aButton.setAttribute("style", "padding: 2em 2em 2em 2em; margin: 1em 1em 1em 1em; background-color: red; font-weight: bold; border-radius: 30px; color: white;")
+
+bButton.setAttribute("style", "padding: 2em 2em 2em 2em; margin: 1em 1em 1em 1em; background-color: red; font-weight: bold; border-radius: 30px; color: white;")
+
+cButton.setAttribute("style", "padding: 2em 2em 2em 2em; margin: 1em 1em 1em 1em; background-color: red; font-weight: bold; border-radius: 30px; color: white;")
+
+dButton.setAttribute("style", "padding: 2em 2em 2em 2em; margin: 1em 1em 1em 1em; background-color: red; font-weight: bold; border-radius: 30px; color: white;")
 
 input.setAttribute("type", "text");
 input.setAttribute("placeholder", "Enter Initials <= 3 characters");
 input.setAttribute("minlength", "1");
 input.setAttribute("maxlength", "3");
-// submit.setAttribute("href", "highscores.html")
-
-startButton.classList.add("start");
-// source: https://developer.mozilla.org/en-US/docs/Web/API/Element/classList
+// source: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input
 
 span.classList.add("time1");
 submit.classList.add("submit1");
 
-
 // append variables to DOM
 body.appendChild(nav1);
 nav1.appendChild(highscorespage);
-body.appendChild(timerText);
+nav1.appendChild(timerText);
 timerText.appendChild(span);
 span.append(time); //place time inside span
 body.appendChild(h1El);
 body.appendChild(intro);
-body.appendChild(startButton);
+body.appendChild(div);
+div.appendChild(startButton);
 
 erase = [highscorespage, h1El, intro, startButton];
 
@@ -96,7 +111,7 @@ startButton.addEventListener("click", init)
     
     h1El.textContent = "";
     intro.textContent = "";
-    body.removeChild(startButton);
+    div.removeChild(startButton);
     countdown = 3;
     // time.textContent = "25";
 
@@ -152,10 +167,10 @@ function startTimer() {
 
 function renderQuiz() {
 
-  body.appendChild(aButton);
-  body.appendChild(bButton);
-  body.appendChild(cButton);
-  body.appendChild(dButton);
+  div.appendChild(aButton);
+  div.appendChild(bButton);
+  div.appendChild(cButton);
+  div.appendChild(dButton);
   body.appendChild(h2El);
 
   h1El.textContent = questions.q[0];
@@ -313,13 +328,15 @@ function quizEnd() {
   score.bonus = score.correct * score.timeRemaining;
   score.total = score.correct + score.bonus;
 
-  body.removeChild(aButton);
-  body.removeChild(bButton);
-  body.removeChild(cButton);
-  body.removeChild(dButton);
+  div.removeChild(aButton);
+  div.removeChild(bButton);
+  div.removeChild(cButton);
+  div.removeChild(dButton);
+
+  intro.setAttribute("style", "display: flex; flex-wrap: wrap; font-size:16px; text-align:center; justify-content: center; white-space: pre;");
 
   h1El.textContent = "Finished.";
-  intro.textContent = "You got " + score.correct + "\nYour time remaining was " + score.timeRemaining + " seconds." + "\nYour bonus score is " + score.bonus + "\nYour final score is " + score.total + "."; 
+  intro.textContent = "You got " + score.correct + " correct. \nYour time remaining was " + score.timeRemaining + " seconds." + "\nYour bonus score is " + score.bonus + "\nYour total score is " + score.total + "."; 
 
   body.appendChild(form);
   form.appendChild(input);
@@ -328,13 +345,21 @@ function quizEnd() {
 
   // var submit2 = document.querySelector(".submit1")
 
+  if (input.value === "") {
+    input.value === "AAA";
+  }
+
   form.addEventListener("submit", submitForm); // in the end it was the form that was meant to have the eventListener, not the submit button and not the input. Which meant it finally stopped refreshing.
 }
 
 function submitForm(event) {
   event.preventDefault();
   // event.stopPropagation();
-  score.initials = input.value;
+
+  if (input.value === "") {
+    score.initials = "AAA";
+  } else score.initials = input.value; 
+  
   localStorage.setItem("score", JSON.stringify(score));
 
   highscores();
@@ -349,8 +374,8 @@ function highscores() {
 
 intro.textContent = "1. " + " Initials: " + obj.initials + ", Correct Answers: " + obj.correct + ", Time Remaining: " + obj.timeRemaining + " seconds" + ", Bonus Points: " + obj.bonus + ", Total: " + obj.total + "."; 
 
-  body.appendChild(goBack);
-  body.appendChild(clearHighscores);
+  div.appendChild(goBack);
+  div.appendChild(clearHighscores);
 
   goBack.addEventListener("click", reset)
 
@@ -367,23 +392,29 @@ function resetHighscores() {
 }
 
 function viewHighscores() { 
-  body.removeChild(timerText);
-  body.removeChild(startButton);
+  nav1.removeChild(timerText);
+  div.removeChild(startButton);
 
   h1El.textContent = "Highscores";
+  
 
   var obj = JSON.parse(localStorage.getItem("score"));
 
-intro.textContent = "1. " + " Initials: " + obj.initials + ", Correct Answers: " + obj.correct + ", Time Remaining: " + obj.timeRemaining + " seconds" + ", Bonus Points: " + obj.bonus + ", Total: " + obj.total + "."; 
+  if (obj !== null) {
+    intro.textContent = "1. " + " Initials: " + obj.initials + ", Correct Answers: " + obj.correct + ", Time Remaining: " + obj.timeRemaining + " seconds" + ", Bonus Points: " + obj.bonus + ", Total: " + obj.total + ".";
+  } else {
+    intro.textContent = "";
+  }
 
-  body.appendChild(goBack);
-  body.appendChild(clearHighscores);
+  
+
+  div.appendChild(goBack);
+  div.appendChild(clearHighscores);
 
   goBack.addEventListener("click", reset)
 
   clearHighscores.addEventListener("click", resetHighscores);
 }
-
 
 highscorespage.addEventListener("click", viewHighscores);
 
