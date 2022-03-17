@@ -45,7 +45,7 @@ var questions = { // questions for the quiz in an object using arrays
 highscorespage.textContent = "View Highscores";
 timerText.textContent = "Time: ";
 h1El.textContent = "Coding Quiz Practice";
-intro.textContent = "Test your knowledge by answering\n the following JavaScript-related multiple choice questions\n within the time limit. Incorrect answers result in a \n ten second penalty.\n \n Clicking the button below will start the quiz.";
+intro.textContent = "Test your knowledge by answering the following JavaScript-related multiple choice questions within the time limit. Incorrect answers result in a  ten second penalty.  Clicking the button below will start the quiz.";
 startButton.textContent = "Start Quiz";
 submit.textContent = "Submit";
 goBack.textContent = "Go Back";
@@ -53,14 +53,12 @@ clearHighscores.textContent = "Clear Highscores";
 
 // set attributes for some of the previous variables
 
-// intro.setAttribute("style", "white-space: pre;"); // code for using new lines with texContent, source: https://stackoverflow.com/questions/9980416/how-can-i-insert-new-line-carriage-returns-into-an-element-textcontent user: nelek
-
 nav1.setAttribute("style", "display: flex; flex-wrap: wrap; justify-content: space-between");
 
-h1El.setAttribute("style", "display: flex; flex-wrap: wrap; justify-content: center; font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; font-size:32px; margin: 10px 10px 10px 10px;");
+h1El.setAttribute("style", "display: flex; flex-wrap: wrap; justify-content: center; flex-direction: column; font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; font-size:32px; margin: 10px 10px 10px 10px;");
 
 // intro.setAttribute("style", "font-size:16px; text-align:center;");
-intro.setAttribute("style", "display: flex; flex-wrap: wrap; font-size:16px; text-align:center; justify-content: center; margin: 10px 10px 10px 10px;"); // can set only one style, any new style in a new line overwrites the old one.
+intro.setAttribute("style", "display: flex; flex-wrap: wrap; flex-direction: row; font-size:16px; text-align:center; justify-content: center; margin: 10px 10px 10px 10px;"); // can set only one style, any new style in a new line overwrites the old one.
 
 div.setAttribute("style", "display: flex; flex-wrap: wrap; justify-content: space-between; flex-direction: column; align-content: flex-start;");
 
@@ -320,10 +318,8 @@ function quizEnd() { // when time runs out or isEnd is 5 or greater, shows score
   div.removeChild(cButton);
   div.removeChild(dButton);
 
-  intro.setAttribute("style", "display: flex; flex-wrap: wrap; font-size:16px; text-align:center; justify-content: center; white-space: pre;");
-
   h1El.textContent = "Finished.";
-  intro.textContent = "You got " + score.correct + " correct. \nYour time remaining was " + score.timeRemaining + " seconds." + "\nYour bonus score is " + score.bonus + "\nYour total score is " + score.total + "."; 
+  intro.textContent = "You got " + score.correct + " correct. Your time remaining was " + score.timeRemaining + " seconds." + "Your bonus score is " + score.bonus + "Your total score is " + score.total + "."; 
 
   body.appendChild(form);
   form.appendChild(input);
@@ -340,7 +336,7 @@ function quizEnd() { // when time runs out or isEnd is 5 or greater, shows score
 function submitForm(event) { // when submit is clicked
   event.preventDefault(); // To prevent the page from refreshing
   
-  if (input.value === "") { // if no value entered for initials
+  if (input.value === "" || input.value.length >= 4) { // if no value entered for initials or if value was longer than 4 because of mobile
     score.initials = "AAA";
   } else score.initials = input.value; 
   
