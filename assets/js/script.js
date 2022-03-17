@@ -319,7 +319,7 @@ function quizEnd() { // when time runs out or isEnd is 5 or greater, shows score
   div.removeChild(dButton);
 
   h1El.textContent = "Finished.";
-  intro.textContent = "You got " + score.correct + " correct. Your time remaining was " + score.timeRemaining + " seconds." + "Your bonus score is " + score.bonus + "Your total score is " + score.total + "."; 
+  intro.textContent = "You got " + score.correct + " correct. Your time remaining was " + score.timeRemaining + " seconds." + " Your bonus score is " + score.bonus + " Your total score is " + score.total + "."; 
 
   body.appendChild(form);
   form.appendChild(input);
@@ -336,7 +336,7 @@ function quizEnd() { // when time runs out or isEnd is 5 or greater, shows score
 function submitForm(event) { // when submit is clicked
   event.preventDefault(); // To prevent the page from refreshing
   
-  if (input.value === "" || input.value.length >= 4) { // if no value entered for initials or if value was longer than 4 because of mobile
+  if (input.value === "") { // if no value entered for initials
     score.initials = "AAA";
   } else score.initials = input.value; 
   
